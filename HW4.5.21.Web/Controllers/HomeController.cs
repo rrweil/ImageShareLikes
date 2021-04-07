@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using HW4._5._21.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace HW4._5._21.Web.Controllers
 {
@@ -63,19 +64,49 @@ namespace HW4._5._21.Web.Controllers
         {
             var connectionString = _configuration.GetConnectionString("ConStr");
             var repo = new ImageRepository(connectionString);
+
+            var likedImages = HttpContext.Session.Get<List<int>>("likedImages");
+
             var vm = new ViewImageViewModel
             {
                 Image = repo.GetImage(id)
-        };
+            };
+            
+            if (likedImages != null)
+            {
+                vm.likedImages = likedImages;
+            }
+
+            if (likedImages != null && likedImages.Contains(id))
+            {
+                vm.alreadyLiked = true;
+            } else
+            {
+                vm.alreadyLiked = false;
+            }
+
             return View(vm);
         }
 
         public IActionResult AddLike(int id)
         {
+            var connectionString = _configuration.GetConnectionString("ConStr");
+            var repo = new ImageRepository(connectionString);
+            repo.AddLike(id);
 
+            List<int> likedImages = HttpContext.Session.Get<List<int>>("likedImages");
+            if(likedImages == null)
+            {
+                likedImages = new List<int>();
+            }
+
+            likedImages.Add(id);
+            HttpContext.Session.Set("likedImages", likedImages);
+
+            return Json(repo.GetLikes(id));
         }
 
-        public IActionResult GetLikes (int id)
+        public IActionResult GetLikes(int id)
         {
             var connectionString = _configuration.GetConnectionString("ConStr");
             var repo = new ImageRepository(connectionString);
@@ -83,5 +114,20 @@ namespace HW4._5._21.Web.Controllers
         }
     }
 
+    public static class SessionExtensions
+    {
+        public static void Set<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T Get<T>(this ISession session, string key)
+        {
+            string value = session.GetString(key);
+
+            return value == null ? default(T) :
+                JsonConvert.DeserializeObject<T>(value);
+        }
+    }
 }
 

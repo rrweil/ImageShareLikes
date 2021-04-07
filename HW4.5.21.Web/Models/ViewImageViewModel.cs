@@ -9,5 +9,8 @@ namespace HW4._5._21.Web.Models
     public class ViewImageViewModel
     {
         public Image Image { get; set; }
+        public bool alreadyLiked { get; set; }
+        public List<int> likedImages { get; set; }
+    
     }
 }

@@ -10,8 +10,10 @@
 
     
     $(".like").on("click", function () {
-        $.post('/home/addLike', { id }, function () {
-        })    
+        $(".like").attr("disabled", true);
+        $.post('/home/addLike', { id }, function (currentLikes) {
+            
+        })        
     })
 
 

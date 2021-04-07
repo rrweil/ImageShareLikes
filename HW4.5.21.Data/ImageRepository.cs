@@ -23,7 +23,7 @@ namespace HW4._5._21.Data
         public List<Image> GetAllImages()
         {
             using var context = new ImageDbContext(_connectionString);
-            return context.Images.ToList();
+            return context.Images.OrderByDescending(i => i.DateUploaded).ToList();
         }
 
         public Image GetImage(int id)
@@ -40,9 +40,13 @@ namespace HW4._5._21.Data
 
         public void AddLike(int id)
         {
-            var 
             using var context = new ImageDbContext(_connectionString);
-            
+            var image = GetImage(id);
+            var currentLikes = image.Likes;
+            image.Likes = currentLikes + 1;
+            context.Images.Attach(image);
+            context.Entry(image).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

@@ -4,7 +4,11 @@
 <div class="container">
     <h1>@Model.Image.Name</h1>
     <img class="rounded img-fluid" src="~/Uploads/@Model.Image.FilePath" />
-    <button class="btn btn-primary like" data-id="@Model.Image.Id">LIKE</button> Current Likes: <span id="imageLikes">@Model.Image.Likes</span>
+    <button class="btn btn-primary like" data-id="@Model.Image.Id" 
+            @{ if(Model.alreadyLiked) { 
+             @:disabled="disabled" 
+        } }>LIKE</button> 
+    Current Likes: <span id="imageLikes">@Model.Image.Likes</span>
 </div>
 
 @section scripts{ 
