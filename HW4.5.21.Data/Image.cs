@@ -8,7 +8,10 @@ namespace HW4._5._21.Data
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string FilePath { get; set; }
         public DateTime DateUploaded { get; set; }
         public int Likes { get; set; }
+        
+
     }
 }

@@ -19,4 +19,3 @@ namespace HW4._5._21.Data
         public DbSet<Image> Images { get; set; }
     }
 }
-}

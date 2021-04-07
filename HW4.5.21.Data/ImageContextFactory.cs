@@ -16,6 +16,4 @@ namespace HW4._5._21.Data
             return new ImageDbContext(config.GetConnectionString("ConStr"));
         }
     }
-    {
-    }
 }

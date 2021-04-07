@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IndexViewModel;
+@using HW4._5._21.Data; 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                @foreach (Image image in Model.Images)
+                {
+                    <div class="jumbotron" style="margin-bottom: 20px; text-align: center;">
+                        <a href="/home/viewimage?id=@image.Id">
+                            <h3>@image.Name</h3>
+                            <h5>Uploaded at: @image.DateUploaded</h5>
+                            <img style="width: 400px;" src="/uploads/@image.FilePath" />
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
 </div>

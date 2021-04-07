@@ -9,4 +9,8 @@
     <ProjectReference Include="..\HW4.5.21.Data\HW4.5.21.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\" />
+  </ItemGroup>
+
 </Project>
